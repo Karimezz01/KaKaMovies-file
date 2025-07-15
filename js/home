@@ -1,0 +1,58 @@
+import { BASE_URL, ACCESS_TOKEN } from "./config.js";
+
+const container = document.getElementById("cardsContainer");
+
+async function fetchData(endpoint) {
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      accept: "application/json"
+    }
+  });
+  return res.json();
+}
+
+export async function loadMovies() {
+  const data = await fetchData("/movie/popular");
+  renderCards(data.results, "movie");
+}
+
+export async function loadTV() {
+  const data = await fetchData("/tv/popular");
+  renderCards(data.results, "tv");
+}
+
+
+export async function loadAll() {
+  container.innerHTML = "";
+  const movies = await fetchData("/movie/popular");
+  const tv = await fetchData("/tv/popular");
+  renderCards([...movies.results, ...tv.results], "mix");
+}
+
+function renderCards(items, type) {
+  container.innerHTML = "";
+  items.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "col-md-3";
+    card.innerHTML = `
+      <div class="card h-100">
+        <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" class="card-img-top" alt="${item.title || item.name}">
+        <div class="card-body">
+          <h5 class="card-title">${item.title || item.name}</h5>
+          <a href="details.html?type=${item.title ? "movie" : "tv"}&id=${item.id}" class="btn btn-primary w-100">Details</a>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+window.loadAll = loadAll;
+window.loadMovies = loadMovies;
+window.loadTV = loadTV;
+window.logout = () => {
+  localStorage.removeItem("user");
+  window.location.href = "index.html";
+};
+
+loadAll();
