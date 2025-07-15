@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><title>Home</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/></head>
+<body><nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4" href="#">KaKa Cinema</a>
+    <div class="d-flex align-items-center">
+      <button class="btn btn-outline-light me-2" onclick="loadAll()">All</button>
+      <button class="btn btn-outline-light me-2" onclick="loadMovies()">Movies</button>
+      <button class="btn btn-outline-light me-2" onclick="loadTV()">TV</button>
+
+      <button class="btn btn-danger px-3" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</nav>
+<div class="container mt-4"><div id="cardsContainer" class="row g-4"></div></div>
+<script type="module" src="./scripts/home.js"></script></body></html>
